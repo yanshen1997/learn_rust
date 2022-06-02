@@ -1,4 +1,5 @@
 mod solution;
+mod leetcode;
 use crate::solution::*;
 fn main() {
     // Test 1
