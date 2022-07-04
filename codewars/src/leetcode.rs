@@ -1,13 +1,36 @@
-use std::{cmp::min, cmp::Ordering, collections::HashMap, vec, i32::MAX};
+use std::{cmp::min, cmp::Ordering, collections::HashMap, i32::MAX, vec};
 // 测试在leetcode上完成
 struct Solution;
 impl Solution {
+    //1200. 最小绝对差
+    pub fn minimum_abs_difference(arr: Vec<i32>) -> Vec<Vec<i32>> {
+        let mut arr = arr;
+        arr.sort_unstable();
+        arr.sort();
+        let mut res = Vec::new();
+        if arr.len() == 2 {
+            res.push(arr);
+            return res;
+        }
+        let mut min = i32::MAX;
+        for i in 1..arr.len() {
+            if min > arr[i] - arr[i - 1] {
+                min = arr[i] - arr[i - 1];
+                res.clear();
+                res.push(vec![arr[i - 1], arr[i]]);
+            } else if min == arr[i] - arr[i - 1] {
+                res.push(vec![arr[i - 1], arr[i]]);
+            }
+        }
+        res
+    }
+
     //556. 下一个更大元素 III
     pub fn next_greater_element(n: i32) -> i32 {
         let mut mem_digits = vec![];
         let mut digits_map = HashMap::<i32, Vec<i32>>::new();
         let mut index = 0;
-        let mut nn:i64 = n as i64;
+        let mut nn: i64 = n as i64;
         while nn > 0 {
             let curr_digit = (nn % 10) as i32;
             for v in curr_digit + 1..=9 {
@@ -21,7 +44,7 @@ impl Solution {
                         nn *= 10;
                         nn += curr as i64;
                     });
-                    return if nn > i32::MAX as i64 { -1 } else { nn as i32};
+                    return if nn > i32::MAX as i64 { -1 } else { nn as i32 };
                 }
             }
             mem_digits.push(curr_digit);
